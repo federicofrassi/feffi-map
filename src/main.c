@@ -1,19 +1,26 @@
 #include <stdio.h>
+#include <string.h>
 
-int main(int argc, char *argv[]){
-    (void) argc;
-    (void) argv; 
-
-
-    printf("feffi-map 0.1\n");
-    printf("A simplified version of nmap, written by feffi (me)\n"); 
-    
+void print_usage(void){     
     printf("Usage:\n");
     printf("  sudo ./feffi-map -sn -i <interface> <target>\n\n");
+}
 
-    printf("Examples:\n");
-    printf("  sudo ./feffi-map -sn -i eth0 192.168.1.0/24\n");
-    printf("  sudo ./feffi-map -sn -i wlan0 192.168.1.1\n");
+int main(int argc, char *argv[]){
+    if (argc == 1){
+        print_usage(); 
+    }
+    else if(argc == 5 && strcmp(argv[1], "-sn") == 0 && strcmp(argv[2], "-i") == 0){
+        printf("Mode: host discovery\n"); 
+        printf("Interface: %s\n", argv[3]); 
+        printf("Target: %s\n", argv[4]); 
+    }
+    else {
+        fprintf(stderr, "Error: invalid command.\n\n");
+        print_usage();
+        return 1;
+    }
+
     return 0; 
 
 }
