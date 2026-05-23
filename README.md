@@ -1,8 +1,3 @@
-feffi-map is a network scanner written in C, a mini-version of Nmap. 
-The goal of the project is to to reimplement, for educational purposes, some core network scanning techniques used by Nmap, such as ARP host discovery, similar to `nmap -sn` on local networks, TCP connect scan, similar to `nmap -sT`, Basic port range scanning, Basic service identification. 
-
-
-
 # feffi-map
 
 `feffi-map` is a small network scanner written in C.
@@ -39,4 +34,4 @@ I am building this project mainly to practice C, raw sockets, Ethernet/ARP packe
 
 ## Disclaimer
 
-This project is for educational purposes only. It should only be used on networks I own or where I have explicit permission.s
+This project is for educational purposes only. It should only be used on networks I own or where I have explicit permission.
