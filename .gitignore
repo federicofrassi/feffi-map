@@ -1,0 +1,9 @@
+feffi-map
+*.o
+*.out
+*.dSYM/
+*.swp
+*.swo
+.DS_Store
+.vscode/
+.idea/
