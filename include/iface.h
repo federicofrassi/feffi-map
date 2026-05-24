@@ -7,7 +7,7 @@
 typedef struct {
     char name[IFNAMSIZ]; 
     int if_index; 
-    uint8_t MAC[6]; 
+    uint8_t mac[6]; 
     uint32_t ip; 
 } iface_info_t; 
 
