@@ -1,4 +1,5 @@
 #include "iface.h"
+#include "arp.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -23,7 +24,8 @@ int main(int argc, char *argv[]){
 		perror("Errore ottenendo le info"); 
 		exit(EXIT_FAILURE); 
 	}
-	print_iface_info(&info); 
+	print_iface_info(&info);
+       arp_scan_host(&info, argv[4]); 	
     }
     else {
         fprintf(stderr, "Error: invalid command.\n\n");
