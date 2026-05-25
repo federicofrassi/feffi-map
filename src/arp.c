@@ -25,17 +25,17 @@ typedef struct __attribute__((packed)) { //attribute((packed)) = no padding
 
 
 /*
+	Versione 3: 
+		1. crea raw socket				V
+		2. costruisce packet[42]		V
+		3. riempie Ethernet header	   V
+		4. riempie ARP header			V
+		5. prepara sockaddr_ll
+		6. chiama sendto()
+		7. se sendto riesce, stampa “ARP request sent”
+		8. chiude socket
 
-	Versione 2:
-		1. controllo input 						V
-		2. converto target_ip con inet_pton()	V
-		3. apro raw socket						V
-		4. preparo un buffer per il frame Ethernet + ARP V
-		5. riempio Ethernet header
-		6. riempio ARP packet
-		7. stampo/debuggo “ARP request built”
-		8. chiudo socket
-		9. return 0
+		Poi si testa con wireshark (chiaramente filtro arp), e si vola :0
 
 */
 
@@ -95,6 +95,21 @@ int arp_scan_host(const iface_info_t *iface, const char *target_ip){
 	//debug
 	printf("ARP request buildata\n"); 
 
+	//Ora devo inviare con sendto(), ma prima mi serve la struct sockaddr_ll
+	struct sockaddr_ll dest;
+	memset(&dest,0, sizeof(dest) ); 	
+	dest.sll_family = AF_PACKET;
+	dest.sll_protocol = htons(ETH_P_ARP); 
+	dest.sll_ifindex = iface->if_index; 
+	dest.sll_halen = 6; 
+	memcpy(dest.sll_addr, broadcast_mac, 6); 	
+
+	if(sendto(sockfd, packet, sizeof(packet), 0,
+			       	(struct sockaddr *)&dest, (socklen_t)sizeof(dest)) == -1){
+		printf("Errore nell'invio della richiesta ARP\n"); 
+	} else {
+		printf("Richiesta ARP inviata con successo\n"); 
+	}
 	//chiudo socket
 	close(sockfd); 
 
